@@ -77,21 +77,21 @@ namespace Chapter5
             this.txtAuthorID.Location = new System.Drawing.Point(153, 55);
             this.txtAuthorID.Name = "txtAuthorID";
             this.txtAuthorID.Size = new System.Drawing.Size(100, 23);
-            this.txtAuthorID.TabIndex = 3;
+            this.txtAuthorID.TabIndex = 1;
             // 
             // txtAuthorName
             // 
             this.txtAuthorName.Location = new System.Drawing.Point(153, 98);
             this.txtAuthorName.Name = "txtAuthorName";
             this.txtAuthorName.Size = new System.Drawing.Size(176, 23);
-            this.txtAuthorName.TabIndex = 4;
+            this.txtAuthorName.TabIndex = 2;
             // 
             // txtYearBorn
             // 
             this.txtYearBorn.Location = new System.Drawing.Point(153, 148);
             this.txtYearBorn.Name = "txtYearBorn";
             this.txtYearBorn.Size = new System.Drawing.Size(100, 23);
-            this.txtYearBorn.TabIndex = 5;
+            this.txtYearBorn.TabIndex = 3;
             this.txtYearBorn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYearBorn_KeyPress);
             // 
             // btnPrevious
@@ -100,6 +100,7 @@ namespace Chapter5
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(88, 23);
             this.btnPrevious.TabIndex = 6;
+            this.btnPrevious.TabStop = false;
             this.btnPrevious.Text = "<=Previous";
             this.btnPrevious.UseVisualStyleBackColor = true;
             this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);

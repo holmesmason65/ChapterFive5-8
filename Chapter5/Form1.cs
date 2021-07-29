@@ -1,5 +1,5 @@
 ﻿/* Mason Holmes 
- * Chapter 5 : Example 5-5
+ * Chapter 5 : Example 5-6
  * 7/28/2021
  * This program provides a GUI for retrieving data from and provides state control for editing the database.
  */
@@ -52,7 +52,6 @@ namespace Chapter5
             txtAuthorName.DataBindings.Add("Text", authorsTable, "Author");
             txtYearBorn.DataBindings.Add("Text", authorsTable, "Year_Born");
 
-
             // establish currency manager
             authorsManager = (CurrencyManager)this.BindingContext[authorsTable];
 
@@ -97,7 +96,11 @@ namespace Chapter5
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Record saved.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (!ValidateData())
+            {
+                return;
+            }
+            MessageBox.Show("Record Saved.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
             SetState("View");
         }
 
@@ -170,11 +173,48 @@ namespace Chapter5
                 // Acceptable Keystrokes
                 e.Handled = false;
             }
+            else if ((int)e.KeyChar == 13) 
+            {
+                txtAuthorName.Focus(); 
+            }
             else
             {
                 e.Handled = true;
                 Console.Beep();
             }
+        }
+        private bool ValidateData()
+        {
+            string message = "";
+            int inputYear, currentYear;
+            bool allOK = true;
+
+            // check for the name 
+            if (txtAuthorName.Text.Trim().Equals(""))
+            {
+                message = "You must enter an Author Name" + "\r\n";
+                txtAuthorName.Focus();
+                allOK = false;
+            }
+            // check the length and range on Year Born
+            if (!txtAuthorName.Text.Trim().Equals(""))
+            {
+                inputYear = Convert.ToInt32(txtYearBorn.Text);
+                currentYear = DateTime.Now.Year;
+                if (inputYear > currentYear || inputYear < currentYear - 150) // 1871 must be the oldest year in the db??
+                {  // 3000   > 2021			  //3000	  // 1871 
+
+                    message += "Year Born must be between" + (currentYear - 150).ToString() + " and " + currentYear.ToString();
+                    // 1871									// 2021
+                    txtYearBorn.Focus();
+                    allOK = false;
+                }
+            }
+            if (!allOK)
+            {
+                MessageBox.Show(message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return allOK;
         }
     }
 }
