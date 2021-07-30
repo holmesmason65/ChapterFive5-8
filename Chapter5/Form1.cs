@@ -1,5 +1,5 @@
 ﻿/* Mason Holmes 
- * Chapter 5 : Example 5-6
+ * Chapter 5 : Example 5-7
  * 7/28/2021
  * This program provides a GUI for retrieving data from and provides state control for editing the database.
  */
@@ -32,28 +32,36 @@ namespace Chapter5
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string path = Path.GetFullPath("SQLBooksDB.mdf");
+            try
+            {
+                string path = Path.GetFullPath("SSQLBooksDB.mdf");
 
-            booksConnection = new SqlConnection($@"Data Source=.\SQLEXPRESS; AttachDbFilename={path};
+                booksConnection = new SqlConnection($@"Data Source=.\SQLEXPRESS; AttachDbFilename={path};
                                                     Integrated Security=True; Connect Timeout=30; User Instance=True");
-            booksConnection.Open();
+                booksConnection.Open();
 
-            // establish command object 
-            authorsCommand = new SqlCommand("Select * from authors ORDER BY Author", booksConnection);
+                // establish command object 
+                authorsCommand = new SqlCommand("Select * from authors ORDER BY Author", booksConnection);
 
-            // establish data adpater 
-            authorsAdapter = new SqlDataAdapter();
-            authorsAdapter.SelectCommand = authorsCommand;
-            authorsTable = new DataTable();
-            authorsAdapter.Fill(authorsTable);
+                // establish data adpater 
+                authorsAdapter = new SqlDataAdapter();
+                authorsAdapter.SelectCommand = authorsCommand;
+                authorsTable = new DataTable();
+                authorsAdapter.Fill(authorsTable);
 
-            // bind controls to data table 
-            txtAuthorID.DataBindings.Add("Text", authorsTable, "Au_ID");
-            txtAuthorName.DataBindings.Add("Text", authorsTable, "Author");
-            txtYearBorn.DataBindings.Add("Text", authorsTable, "Year_Born");
+                // bind controls to data table 
+                txtAuthorID.DataBindings.Add("Text", authorsTable, "Au_ID");
+                txtAuthorName.DataBindings.Add("Text", authorsTable, "Author");
+                txtYearBorn.DataBindings.Add("Text", authorsTable, "Year_Born");
 
-            // establish currency manager
-            authorsManager = (CurrencyManager)this.BindingContext[authorsTable];
+                // establish currency manager
+                authorsManager = (CurrencyManager)this.BindingContext[authorsTable];
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Error establishing Authors Table.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; 
+            }
 
             // page 5-40
             this.Show(); // what does this do???
@@ -71,7 +79,7 @@ namespace Chapter5
             authorsTable.Dispose();
         }
 
-        private void btnPrevious_Click(object sender, EventArgs e)
+        private void btnPrevious_Click(object sender, EventArgs e)          
         {
             if (authorsManager.Position == 0)
             {
@@ -80,7 +88,7 @@ namespace Chapter5
             authorsManager.Position--;
         }
 
-        private void btnNext_Click(object sender, EventArgs e)
+        private void btnNext_Click(object sender, EventArgs e)              
         {
             if (authorsManager.Position == authorsManager.Count - 1)
             {
@@ -89,32 +97,46 @@ namespace Chapter5
             authorsManager.Position++;
         }
 
-        private void btnExit_Click(object sender, EventArgs e) // should be called btnEdit not Exit
+        private void btnExit_Click(object sender, EventArgs e) // should be called btnEdit not Exit 
         {
             SetState("Edit");
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)              
         {
             if (!ValidateData())
             {
                 return;
             }
-            MessageBox.Show("Record Saved.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            SetState("View");
+            try 
+            {
+                MessageBox.Show("Record Saved.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SetState("View");
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show("Error saving record.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)            
         {
             SetState("View");
         }
 
-        private void btnAddNew_Click(object sender, EventArgs e)
+        private void btnAddNew_Click(object sender, EventArgs e)            
         {
-            SetState("Add");
+            try
+            {
+                SetState("Add");
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show("Error adding record.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)            
         {
             DialogResult response;
             response = MessageBox.Show("Are you sure you want to delete this record", "Delete",
@@ -123,11 +145,18 @@ namespace Chapter5
             {
                 return;
             }
+            try 
+            {
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show("Error deleting record.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnDone_Click(object sender, EventArgs e)
+        private void btnDone_Click(object sender, EventArgs e)              
         {
-            this.Close(); // ?
+            this.Close(); 
         }
 
         private void SetState(string appState)
