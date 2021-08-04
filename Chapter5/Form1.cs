@@ -1,7 +1,7 @@
 ﻿/* Mason Holmes 
  * Chapter 5 : Example 5-7
  * 7/28/2021
- * This program provides a GUI for retrieving data from and provides state control for editing the database.
+ * This program provides a GUI for retrieving data from and provides state control for editing the database. Also provides a means for incorporating help feature.
  */
 
 using System;
@@ -34,6 +34,8 @@ namespace Chapter5
         {
             try
             {
+                hlpAuthors.HelpNamespace = Application.StartupPath + "authors.chm"; 
+
                 string path = Path.GetFullPath("SSQLBooksDB.mdf");
 
                 booksConnection = new SqlConnection($@"Data Source=.\SQLEXPRESS; AttachDbFilename={path};
@@ -244,6 +246,11 @@ namespace Chapter5
                 MessageBox.Show(message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return allOK;
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, hlpAuthors.HelpNamespace);
         }
     }
 }

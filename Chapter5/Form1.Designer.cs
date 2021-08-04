@@ -43,6 +43,8 @@ namespace Chapter5
             this.btnAddNew = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnDone = new System.Windows.Forms.Button();
+            this.hlpAuthors = new System.Windows.Forms.HelpProvider();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -175,11 +177,22 @@ namespace Chapter5
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(237, 297);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnHelp.TabIndex = 14;
+            this.btnHelp.Text = "Help";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(435, 331);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAddNew);
@@ -194,7 +207,9 @@ namespace Chapter5
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.hlpAuthors.SetHelpNavigator(this, System.Windows.Forms.HelpNavigator.TableOfContents);
             this.Name = "Form1";
+            this.hlpAuthors.SetShowHelp(this, true);
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -219,6 +234,8 @@ namespace Chapter5
         private System.Windows.Forms.Button btnAddNew;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnDone;
+        private System.Windows.Forms.HelpProvider hlpAuthors;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
 
