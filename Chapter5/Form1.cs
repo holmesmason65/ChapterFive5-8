@@ -1,6 +1,5 @@
 ﻿/* Mason Holmes 
- * Chapter 5 : Example 5-7
- * 7/28/2021
+ * Chapter 5 : Example 5-8
  * This program provides a GUI for retrieving data from and provides state control for editing the database. Also provides a means for incorporating help feature.
  */
 
